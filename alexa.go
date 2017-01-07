@@ -6,18 +6,31 @@ import (
 	"log"
 	"net/http"
 	"strings"
+	"errors"
 )
 
 const baseApiUrl = "http://data.alexa.com/data?cli=10&url="
 
-func GlobalRank(url string) string {
+// GlobalRank get Global Rank of website in Alexa
+// It returns global rank in string type and any rank error encountered.
+func GlobalRank(url string) (string, error) {
 	element := get(url, "POPULARITY")
-	return element.Attr[1].Value
+	if len(element.Attr) >= 2 {
+		return element.Attr[1].Value, nil
+	} else {
+		return "", errors.New("no rank")
+	}
 }
 
-func CountryRank(url string) (string, string, string) {
+// GlobalRank get Global Rank of website in Alexa
+// It returns country rank in string, country name in string, country code in string and any rank error encountered.
+func CountryRank(url string) (string, string, string, error) {
 	element := get(url, "COUNTRY")
-	return element.Attr[2].Value, element.Attr[1].Value, element.Attr[0].Value
+	if len(element.Attr) >= 3 {
+		return element.Attr[2].Value, element.Attr[1].Value, element.Attr[0].Value, nil
+	} else {
+		return "", "", "", errors.New("no country rank")
+	}
 }
 
 func get(url string, tag string) xml.StartElement {

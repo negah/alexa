@@ -6,8 +6,10 @@ import (
 
 func TestGlobalRank(t *testing.T) {
   url := "google.com"
-  rank := GlobalRank(url)
-
+  rank, err := GlobalRank(url)
+  if err != nil {
+    t.Fatalf("An error occured with getting rank")
+  }
   if rank != "1" {
     t.Fatalf("Wrong global rank!")
   }
@@ -16,7 +18,11 @@ func TestGlobalRank(t *testing.T) {
 func TestCountryRank(t *testing.T) {
   url := "google.com"
 
-  rank, country_name, country_code := CountryRank(url)
+  rank, country_name, country_code, err := CountryRank(url)
+
+  if err != nil {
+    t.Fatalf("An error occured with getting rank")
+  }
 
   if rank != "1" && country_name != "United States" && country_code != "US" {
     t.Fatalf("Wrong country rank!")
