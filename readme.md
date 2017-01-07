@@ -21,11 +21,21 @@ import(
 func main(){
   url := "google.com"
 
-  globalRank := alexa.GlobalRank(url)
-  fmt.Printf("%s rank in alexa is %s\n", url, globalRank)
+  globalRank, err := alexa.GlobalRank(url)
 
-  countryRank, countryName, _ := alexa.CountryRank(url)
-  fmt.Printf("%s has rank %s in %s", url, countryRank, countryName )
+  if err != nil {
+    fmt.Printf("%s", err)
+  } else {
+    fmt.Printf("%s rank in alexa is %s\n", url, globalRank)
+  }
+
+  countryRank, countryName, _, err := alexa.CountryRank(url)
+
+  if err != nil {
+    fmt.Printf("%s", err)
+  } else {
+    fmt.Printf("%s has rank %s in %s", url, countryRank, countryName )
+  }
 }
 
 ```
