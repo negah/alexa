@@ -2,11 +2,11 @@ package alexa
 
 import (
 	"encoding/xml"
+	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strings"
-	"errors"
 )
 
 const baseApiUrl = "http://data.alexa.com/data?cli=10&url="
@@ -18,7 +18,7 @@ func GlobalRank(url string) (string, error) {
 	if len(element.Attr) >= 2 {
 		return element.Attr[1].Value, nil
 	} else {
-		return "", errors.New("no rank")
+		return "No rank", nil
 	}
 }
 
